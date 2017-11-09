@@ -1,5 +1,5 @@
-var express = require('express');
-var bodyParser = require('body-parser');
+var express = require("express");
+var bodyParser = require("body-parser");
 
 var fs = require('fs');
 var app = express();
@@ -10,16 +10,12 @@ app.use(bodyParser.json());
 //serwowanie statycznych elemementów.
 app.use(express.static('assets'));
 
-app.get('/getUserform', function (req, res) {
+app.get('/userform', function (req, res) {
   var response = {
-    first_name: //?
-    last_name: //?
+    first_name: req.query.first_name,
+    last_name: req.query.last_name
   };
-});
-
-//handling POST method
-app.post('/postUserform', (req, res) {
-  var response = //?
+  res.end(JSON.stringify(response));
 });
 
 app.post('/', function (req, res) {
