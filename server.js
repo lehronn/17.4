@@ -7,7 +7,7 @@ var stringifyFile;
 
 app.use(bodyParser.json());
 
-//serwowanie statycznych elemementów.
+//serwowanie statycznych elemementów z assets.
 app.use(express.static('assets'));
 
 app.get('/userform', function (req, res) {
@@ -45,12 +45,22 @@ app.get('/getNote', function (req, res) {
     });
   });
   
-  
 //endpoint dynamiczny przekazujący ID podany w adresie
-app.get('/:id', function(req, res) {
+app.get('/dynamic/:id', function(req, res) {
   res.send('Identyfikator, który został dopisany to ' + req.params.id);
 });
 //koniec endpointu dynamicznego.
+
+//middleware, zadanie 17.5
+app.use('/store', function(req,res,next) {
+  console.log('Jestem pośrednikiem przy żądaniu do /store');
+    next();
+});
+
+app.get('/store', function (req, res) {
+    res.send('To jest sklep');
+});
+//koniec zad 17.5
 
 app.delete('/del_user', function (req, res) {
   console.log('Otrzymałem żądanie DELETE do strony /del_user');
@@ -67,12 +77,13 @@ app.get('/ab*cd', function(req, res) {
   res.send('Wzór pasuje');
 });
 
+//middleware, obsługa błędu 404.
 app.use(function (req, res, next) {
     res.status(404).send('Wybacz, nie mogliśmy odnaleźć tego, czego żądasz!')
 });
 
 //nasłuchiwanie
-var server = app.listen(3004, 'localhost', () => {
+var server = app.listen(3000, 'localhost', () => {
     var host = server.address().address;
     var port = server.address().port;
 
